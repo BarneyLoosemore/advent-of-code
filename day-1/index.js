@@ -4,7 +4,7 @@ function sumStringArray(array) {
   return array.reduce((a, b) => Number(a) + Number(b));
 }
 
-function calculateHighestCalorieCount(rawCalorieData) {
+function calculateCalorieTotals(rawCalorieData) {
   const elfCaloriesArray = rawCalorieData.split('\n');
   const elfCaloriesArraySplitIndexes = elfCaloriesArray
     .map((string, index) => string === '' && index)
@@ -19,9 +19,27 @@ function calculateHighestCalorieCount(rawCalorieData) {
     }
   );
 
-  return Math.max(...elfCalorieTotals);
+  return elfCalorieTotals;
 }
 
-fs.readFile('input.json', 'utf-8', (_, data) =>
-  console.log(calculateHighestCalorieCount(data))
-);
+function calculateMax(calorieTotals) {
+  return Math.max(...calorieTotals);
+}
+
+function calculateTopCaloriesTotalSum(calorieTotals) {
+  return calorieTotals
+    .sort((a, b) => b - a)
+    .slice(0, 3)
+    .reduce((a, b) => a + b);
+}
+
+fs.readFile('input.json', 'utf-8', (_, data) => {
+  const calorieTotals = calculateCalorieTotals(data);
+  const topElfCalories = calculateMax(calorieTotals);
+  console.log('Calorie sum held by Elf with most calories: ' + topElfCalories);
+
+  const top3ElfCaloriesSum = calculateTopCaloriesTotalSum(calorieTotals);
+  console.log(
+    'Calorie sum held by top 3 Elves with most calories: ' + top3ElfCaloriesSum
+  );
+});
