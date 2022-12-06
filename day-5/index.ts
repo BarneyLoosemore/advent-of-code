@@ -45,10 +45,7 @@ const getSteps = (input: string): number[][] =>
     );
 
 const transposeStacks = (arr: string[]): string[][] => {
-  const [stacks, stackNumbers] = [
-    arr.slice(0, arr.length - 1),
-    arr[arr.length - 1],
-  ];
+  const [stacks, stackNumbers] = [arr.slice(0, -1), arr[arr.length - 1]];
 
   return stackNumbers
     .split(' ')
